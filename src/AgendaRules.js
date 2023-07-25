@@ -254,6 +254,22 @@ const agendaRules = {
             }
         ]
     },
+    // Uniting the Realm
+    '25620': {
+        mayInclude: card => !card.loyal && card.type !== 'plot',
+        rules: [
+            {
+                message: 'Cannot contain more than 3 different cards from any faction',
+                condition: deck => {
+                    const allCards = deck.drawCards.concat(deck.plotCards);
+                    const factionCounts = {};
+                    allCards.forEach(cardQuantity => factionCounts[cardQuantity.card.faction] = (factionCounts[cardQuantity.card.faction] || 0) + 1);
+
+                    return Object.entries(factionCounts).every((faction, count) => count <= 3);
+                }
+            }
+        ]
+    },
     // Draft Agendas
     // The Power of Wealth
     '00001': {

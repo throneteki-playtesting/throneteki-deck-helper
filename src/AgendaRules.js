@@ -254,6 +254,10 @@ const agendaRules = {
             }
         ]
     },
+    // The Gift of Mercy
+    '25618': {
+        cannotInclude: card => card.type === 'plot' && hasTrait(card, 'Omen')
+    },
     // Uniting the Realm
     '25620': {
         mayInclude: card => !card.loyal && card.type !== 'plot',

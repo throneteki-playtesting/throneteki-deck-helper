@@ -260,7 +260,7 @@ const agendaRules = {
     },
     // Uniting the Realm
     '25620': {
-        mayInclude: card => !card.loyal && card.type !== 'plot',
+        mayInclude: card => !card.loyal && ['attachment', 'character', 'location'].includes(card.type),
         rules: [
             {
                 message: 'Cannot contain more than 3 different cards from any faction',

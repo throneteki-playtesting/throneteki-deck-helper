@@ -265,11 +265,15 @@ const agendaRules = {
             {
                 message: 'Cannot contain more than 3 different cards from any faction',
                 condition: deck => {
-                    const allCards = deck.drawCards.concat(deck.plotCards);
-                    const factionCounts = {};
-                    allCards.forEach(cardQuantity => factionCounts[cardQuantity.card.faction] = (factionCounts[cardQuantity.card.faction] || 0) + 1);
-
-                    return Object.entries(factionCounts).every((faction, count) => count <= 3);
+                    const cardQuantities = deck.drawCards.concat(deck.plotCards);
+                    const factionCounts = new Map();
+                    for(const cardQuantity of cardQuantities) {
+                        if(cardQuantity.card.faction !== 'neutral') {
+                            let count = factionCounts.get(cardQuantity.card.faction) || 0;
+                            factionCounts.set(cardQuantity.card.faction, count + 1);
+                        }
+                    }
+                    return Array.from(factionCounts.values()).every(count => count <= 3);
                 }
             }
         ]
